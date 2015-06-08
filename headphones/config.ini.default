@@ -1,6 +1,6 @@
 [General]
 nzb_downloader = 0
-cue_split = 1
+cue_split = 0
 libraryscan = 1
 music_encoder = 0
 open_magnet_links = 0
@@ -60,7 +60,7 @@ usenet_retention = 0
 add_album_art = 1
 headphones_indexer = 0
 rename_files = 1
-file_format = $Track $Artist - $Album [$Year] - $Title
+file_format = $Artist - $Album [$Year] - $Track - $Title
 customhost = localhost
 interface = default
 folder_format = $Artist/$Album [$Year]
