@@ -1,0 +1,18 @@
+### APP VARS
+TYPE=svc
+NAME=headphones
+CONFIG_DIR=$HOME/.docker-headphones
+CONFIG_VOL=/etc/headphones
+USER_DIR=$HOME/downloads
+USER_VOL=/downloads
+FETCH_DIR=$HOME/fetch
+FETCH_VOL=/fetch
+GUI_PORT=8181
+
+### RUNTIME VARS
+HOSTNAME=$(hostname)
+USER=$(whoami)
+IMG=$TYPE/$NAME
+APP=$USER.$NAME
+LUID=$(id -u $USER)
+LGID=$(id -g $USER)

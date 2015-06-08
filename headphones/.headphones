@@ -1,0 +1,31 @@
+#!/bin/bash
+
+### SET VARIABLES
+USER=headphones
+APP_DIR=/opt/headphones
+CONFIG_DIR=/etc/headphones
+FETCH_DIR=/fetch
+USER_DIR=/downloads
+USER_CONFIG=$CONFIG_DIR/config.ini
+DEFAULT_CONFIG=$CONFIG_DIR/config.ini.default
+
+### MANAGE CONFIGS
+if [[ ! -f $USER_CONFIG ]]; then cp $DEFAULT_CONFIG $USER_CONFIG; fi
+
+### MANAGE USER AND VOLUME OWNERSHIP
+if [ ! $(grep --quiet '$CONFIG_DIR' /etc/passwd) ]; then
+  ### CREATE APPLICAITON USER
+  echo "$USER:x:$UID:$GID:$USER,,,:$CONFIG_DIR:/bin/bash" >> /etc/passwd
+  echo "$USER:x:$GID:" >> /etc/group
+  ### ASSIGN VOLUME OWNERSHIP
+  mkdir -p $CONFIG_DIR
+  mkdir -p $FETCH_DIR
+  mkdir -p $USER_DIR
+  chown $UID:$GID -R $APP_DIR
+  chown $UID:$GID -R $CONFIG_DIR
+  chown $UID:$GID -R $FETCH_DIR
+  chown $UID:$GID -R $USER_DIR
+fi
+
+### START SERVICE USING RUNTIME UID AND GID
+exec su - $USER -c "python $APP_DIR/Headphones.py --verbose --nolaunch --datadir $CONFIG_DIR" 2>&1
